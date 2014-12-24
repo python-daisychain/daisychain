@@ -62,7 +62,7 @@ class Chain(Compiler):
 
             instantiator = Instantiator(name=self.name, config=compilers)
             instantiator.run()
-            executor = Executor(name=self.name, dependencies=instantiator.steps.values())
+            executor = Executor(name=self.name, dependencies=list(instantiator.steps.values()))
             executor.execute()
 
             if compiler_to_run_from:

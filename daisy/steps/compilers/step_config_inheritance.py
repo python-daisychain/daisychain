@@ -40,7 +40,7 @@ class StepConfigInheritance(Compiler):
         for step_name, step_config in config[STEPS_KEY].items():
             parenting_steps[step_name] = StepConfigInheritance.ParentedConfigurationStep(step_config, name=step_name)
 
-        executor.dependencies.update(parenting_steps.values())
+        executor.dependencies.update(set(parenting_steps.values()))
 
         for parenting_step in parenting_steps.values():
             parenting_step.evaluate_parentage(parenting_steps)

@@ -93,7 +93,7 @@ class ValidatingObject(object):
             self.__fields__[field_attr] = field
 
         if len(fields) > 0:
-            raise TypeError("__init__() got an unexpected keyword arguments: {!r}".format(fields.keys()))
+            raise TypeError("__init__() got an unexpected keyword arguments: {!r}".format(list(fields.keys())))
 
     @classmethod
     def _find_fields(cls):

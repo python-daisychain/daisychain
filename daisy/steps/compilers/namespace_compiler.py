@@ -19,7 +19,7 @@ class NamespaceCompiler(Compiler):
             elif ignore_if_key_present is not None and ignore_if_key_present in config:
                 self.log('compiler').debug('Ignored config: {!r}'.format(config))
 
-            for subsection in self.find_subsections_specifying_key(key, config.values(), ignore_if_key_present):
+            for subsection in self.find_subsections_specifying_key(key, list(config.values()), ignore_if_key_present):
                 yield subsection
         elif isinstance(config, (list, tuple)):
             for subsection in config:

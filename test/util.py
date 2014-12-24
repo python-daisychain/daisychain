@@ -6,7 +6,7 @@ def compare_trees(ob1, ob2):
         assert type(ob1) == type(ob2), "{!r} != {!r}".format(ob1, ob2)
 
     if isinstance(ob1, dict):
-        keys = set(ob1.keys() + ob2.keys())
+        keys = set(ob1.keys()) | set(ob2.keys())
         for key in keys:
             assert key in ob1, "Key {!r} not in {!r}".format(key, ob1)
             assert key in ob2, "Key {!r} not in {!r}".format(key, ob2)

@@ -40,7 +40,7 @@ class Instantiator(Step):
         instantiation_executor = Executor(name=self.name)
         if self.root_log_id:
             instantiation_executor.root_log_id = self.root_log_id + '.' + instantiation_executor.root_log_id
-        instantiation_executor.dependencies.update(instantiation_steps.values())
+        instantiation_executor.dependencies.update(set(instantiation_steps.values()))
         self.executor_output = instantiation_executor.execute()
         self.status.set_finished()
 
