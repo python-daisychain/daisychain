@@ -329,6 +329,22 @@ def test_circular_ref_cross_tree():
         else:
             assert False, "Should have thrown a CircularReferenceError"
 
+def test_maximum_recursion_error():
+    t = TestRef(name='t')
+    t.create_mock_tree(layers=MAXIMUM_REFERENCE_DEPTH + 1, layer_size=1)
+    try:
+        t.all_references
+    except ExceedsMaximumDepthError:
+        pass
+    else:
+        assert False, "Should have raised the ExceedsMaximumDepthError"
+
+def test_maximum_depth():
+    t = TestRef(name='t')
+    t.create_mock_tree(layers=MAXIMUM_REFERENCE_DEPTH - 2, layer_size=1)
+    t.all_references
+
+"""
 def test_performance_tracing_1000_node_3_deep_tree():
     t = TestRef(name='t')
     t.create_mock_tree(layers=3, layer_size=10)
@@ -368,12 +384,4 @@ def test_performance_maximum_depth():
     total_time = time.time() - start_time
     assert total_time < 1.0, "Took more than 1 second to trace this performance test"
 
-def test_maximum_recursion_error():
-    t = TestRef(name='t')
-    t.create_mock_tree(layers=MAXIMUM_REFERENCE_DEPTH + 1, layer_size=1)
-    try:
-        t.all_references
-    except ExceedsMaximumDepthError:
-        pass
-    else:
-        assert False, "Should have raised the ExceedsMaximumDepthError"
+"""
