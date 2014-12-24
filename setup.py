@@ -7,7 +7,7 @@ install_requires = ['py3compat >= 0.2']
 
 setup(
     name='daisychain',
-    version='0.1',
+    version='0.1.1',
     description='Configuration-based OO-dependency resolution workflow engine',
     author='Jeff Edwards',
     author_email='jeff@edwardsj.com',
