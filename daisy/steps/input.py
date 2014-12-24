@@ -2,6 +2,12 @@ from daisy.step import Step
 import re
 import getpass
 
+try:
+    import builtins
+    raw_input = input
+except ImportError:
+    pass
+
 
 class Input(Step):
     """

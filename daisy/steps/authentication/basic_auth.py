@@ -3,6 +3,12 @@ from daisy.step import Step
 from daisy.field import Field
 from py3compat import string_types
 
+try:
+    import builtins
+    raw_input = input
+except ImportError:
+    pass
+
 class BasicAuth(Step):
 
     username = Field(instance_of=string_types, optional=True)
