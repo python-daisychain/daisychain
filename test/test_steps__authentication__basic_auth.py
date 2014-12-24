@@ -1,12 +1,20 @@
 import daisy.steps.authentication.basic_auth
 from mock import patch
 import sys
+import mock_requests
+import mock_requests.auth
+try:
+    import builtins
+    input_function = 'builtins.input'
+except ImportError:
+    input_function = '__builtin__.raw_input'
+
 
 
 def run_with_basic_auth(BasicAuth):
 
     with patch('daisy.steps.authentication.basic_auth.getpass') as mock_getpass:
-        with patch('__builtin__.raw_input') as mock_raw_input:
+        with patch(input_function) as mock_raw_input:
             b = BasicAuth()
             assert b.username is None
             assert b.password is None
@@ -42,8 +50,6 @@ def test_basic_auth():
     run_with_basic_auth(daisy.steps.authentication.basic_auth.BasicAuth)
 
 def test_basic_auth_with_requests():
-    import mock_requests
-    import mock_requests.auth
     sys.modules['requests'] = mock_requests
     sys.modules['requests.auth'] = mock_requests.auth
     try:

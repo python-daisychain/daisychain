@@ -42,7 +42,7 @@ class StepConfigInheritance(Compiler):
 
         executor.dependencies.update(set(parenting_steps.values()))
 
-        for parenting_step in parenting_steps.values():
+        for parenting_step in list(parenting_steps.values()):
             parenting_step.evaluate_parentage(parenting_steps)
 
         executor.execute()

@@ -1,6 +1,11 @@
 from daisy.executor import Executor, Execution, ExecutorAborted, ConsoleInput, CheckStatusException
 from . import test_step
 from mock import patch
+try:
+    import builtins
+    input_function = 'builtins.input'
+except ImportError:
+    input_function = '__builtin__.raw_input'
 
 def test_init():
     e = Executor()
@@ -37,7 +42,7 @@ def test_attach_self_as_executor():
     assert dep.root_log_id == e.root_log_id
 
 def test_prompt_user_for_step():
-    with patch('__builtin__.raw_input') as mock_raw_input:
+    with patch(input_function) as mock_raw_input:
         dep = test_step.MockStep(name='mock_step', run_exception=RuntimeError('Exception while running step'))
         e = Executor(name='test_executor')
         global times_called
@@ -191,7 +196,7 @@ def test_execute_graceful_shutdown_with_already_aborted_execution():
     assert successful_parent.status.pending
 
 def test_prompting_during_execution():
-    with patch('__builtin__.raw_input') as mock_raw_input:
+    with patch(input_function) as mock_raw_input:
         dep = test_step.MockStep(name='mock_step', run_exception=RuntimeError('Exception while running step'))
         e = Executor(name='test_executor', on_failure=Executor.PROMPT, dependencies=[dep])
         global times_called

@@ -1,6 +1,13 @@
 import daisy.steps.input
 from mock import patch
 
+try:
+    import builtins
+    input_function = 'builtins.input'
+except ImportError:
+    input_function = '__builtin__.raw_input'
+
+
 def test_inmemory_input():
     i = daisy.steps.input.InMemoryInput(output='abc')
     i.run()
@@ -8,7 +15,7 @@ def test_inmemory_input():
     assert i.status.finished
 
 def test_console_input_success():
-    with patch('__builtin__.raw_input') as mock_raw_input:
+    with patch(input_function) as mock_raw_input:
         with patch('getpass.getuser') as mock_getuser:
             mock_raw_input.side_effect = ['r', '3', '', 'Y', '', 'n']
             mock_getuser.return_value = 'mockuser'

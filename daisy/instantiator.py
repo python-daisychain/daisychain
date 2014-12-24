@@ -33,7 +33,7 @@ class Instantiator(Step):
     def run(self):
         instantiation_steps = self.get_instantiation_steps()
         self.log('instantiator').debug("Linking reference dependencies")
-        for step in instantiation_steps.values():
+        for step in list(instantiation_steps.values()):
             step.evaluate_reference_dependencies(instantiation_steps)
 
         self.log('instantiator').debug("Running instantiator Tree")
