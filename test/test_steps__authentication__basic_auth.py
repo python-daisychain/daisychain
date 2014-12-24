@@ -3,13 +3,12 @@ from mock import patch
 import sys
 import mock_requests
 import mock_requests.auth
-try:
+import py3compat
+if py3compat.PY2:
+    input_function = 'daisy.steps.authentication.basic_auth.input'
+else:
     import builtins
     input_function = 'builtins.input'
-except ImportError:
-    input_function = '__builtin__.raw_input'
-
-
 
 def run_with_basic_auth(BasicAuth):
 

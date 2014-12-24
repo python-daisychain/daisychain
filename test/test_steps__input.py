@@ -1,12 +1,12 @@
 import daisy.steps.input
 from mock import patch
 
-try:
+import py3compat
+if py3compat.PY2:
+    input_function = 'daisy.steps.input.input'
+else:
     import builtins
     input_function = 'builtins.input'
-except ImportError:
-    input_function = '__builtin__.raw_input'
-
 
 def test_inmemory_input():
     i = daisy.steps.input.InMemoryInput(output='abc')

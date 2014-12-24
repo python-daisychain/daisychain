@@ -1,12 +1,12 @@
 from daisy.steps.manual import Manual
 from daisy.executor import Executor
 from mock import patch
-try:
+import py3compat
+if py3compat.PY2:
+    input_function = '__builtin__.raw_input'
+else:
     import builtins
     input_function = 'builtins.input'
-except ImportError:
-    input_function = '__builtin__.raw_input'
-
 
 def test_manual_step():
     m = Manual(instructions='Do something')

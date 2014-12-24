@@ -1,9 +1,10 @@
 from daisy.step import Step
 import re
 import getpass
+import py3compat
 
-if not py3compat.PY2:
-    raw_input = input
+if py3compat.PY2:
+    input = raw_input
 
 class Input(Step):
     """
@@ -74,5 +75,5 @@ class ConsoleInput(UserInput):
     def run(self):
         full_prompt = "{0.SEPARATOR}\n{0.prompt}\n{0.SEPARATOR}\n>".format(self)
         self.user = getpass.getuser()
-        self.output = raw_input(full_prompt).lower().strip()
+        self.output = input(full_prompt).lower().strip()
         self.status.set_finished()

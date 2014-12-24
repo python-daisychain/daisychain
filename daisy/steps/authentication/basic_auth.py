@@ -2,9 +2,10 @@ import getpass
 from daisy.step import Step
 from daisy.field import Field
 from py3compat import string_types
+import py3compat
 
-if not py3compat.PY2:
-    raw_input = input
+if py3compat.PY2:
+    input = raw_input
 
 class BasicAuth(Step):
 
@@ -41,7 +42,7 @@ class BasicAuth(Step):
     def get_username(self):
         username = getpass.getuser()
         if not username:
-            username = raw_input("{0.name}: Could not autodetect your username.  Please provide your username{0.credentials_for}: ".format(self))
+            username = input("{0.name}: Could not autodetect your username.  Please provide your username{0.credentials_for}: ".format(self))
         return username
 
 def _fix_bases_if_requests_is_present():
