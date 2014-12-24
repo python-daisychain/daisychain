@@ -11,7 +11,7 @@ setup(
     description='Configuration-based OO-dependency resolution workflow engine',
     author='Jeff Edwards',
     author_email='jeff@edwardsj.com',
-    url='https://github.com/python-daisy/daisychain',
+    url='https://github.com/python-daisychain/daisychain',
     license='MIT License',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     scripts = ['bin/daisy-chain'],
