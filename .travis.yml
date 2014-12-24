@@ -5,12 +5,6 @@ python:
     - "3.2"
     - "2.7"
 
-env:
-    global:
-        - PIP_DOWNLOAD_CACHE=$HOME/.pip-cache
-    sudo: false
-    cache:
-        - $HOME/.pip-cache
-    install:
-        - pip install tox
-    script: tox
+install: ["pip install tox"]
+script: tox
+sudo: false
