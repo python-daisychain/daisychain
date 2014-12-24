@@ -17,4 +17,3 @@ setup(
     scripts = ['bin/daisy-chain'],
     install_requires=install_requires
 )
-
