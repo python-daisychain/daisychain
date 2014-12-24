@@ -1,12 +1,12 @@
-import daisy.steps.monitor
-import daisy.step
-import daisy.executor
+import daisychain.steps.monitor
+import daisychain.step
+import daisychain.executor
 
-class MockStep(daisy.step.Step):
+class MockStep(daisychain.step.Step):
     def run(self):
         self.status.set_finished()
 
-class MockMonitor(daisy.steps.monitor.Monitor):
+class MockMonitor(daisychain.steps.monitor.Monitor):
     def __init__(self, error=None, **fields):
         super(MockMonitor, self).__init__(**fields)
         self.error = error
@@ -170,22 +170,22 @@ def test_monitor_with_executor_and_watch_all():
 
     m1 = MockMonitor(name='m1')
     m2 = MockMonitor(name='m2', watch_all=True)
-    executor = daisy.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
+    executor = daisychain.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
     executor.execute()
     assert set(m2.watches) == {s1, s2, s2_1, s3}
 
     m2 = MockMonitor(name='m2', watch_all=True, dependencies=[s1])
-    executor = daisy.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
+    executor = daisychain.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
     executor.execute()
     assert set(m2.watches) == {s2, s2_1, s3}
 
     m2 = MockMonitor(name='m2', watch_all=True, dependencies=[s2])
-    executor = daisy.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
+    executor = daisychain.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
     executor.execute()
     assert set(m2.watches) == {s2_1, s3}
 
     m2 = MockMonitor(name='m2', watch_all=True, dependencies=[s2_1, s3])
-    executor = daisy.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
+    executor = daisychain.executor.Executor(dependencies=[s1, s2, s2_1, s3, m1, m2])
     executor.execute()
     assert set(m2.watches) == set()
     assert not m2.watch_all
@@ -193,7 +193,7 @@ def test_monitor_with_executor_and_watch_all():
 
 def test_monitor_with_executor_abort():
     m1 = MockMonitor(name='m1')
-    m1.executor = daisy.executor.Executor(execution=daisy.executor.Execution())
+    m1.executor = daisychain.executor.Executor(execution=daisychain.executor.Execution())
     m1.executor.execution.aborted = True
     assert m1.status.pending
     m1.status.check()
@@ -202,9 +202,9 @@ def test_monitor_with_executor_abort():
 
 def test_monitor_starter():
     m1 = MockMonitor(name='m1')
-    m_starter = daisy.steps.monitor.MonitorStarter(monitors=[m1])
+    m_starter = daisychain.steps.monitor.MonitorStarter(monitors=[m1])
     m1.watches.append(m_starter)
-    executor = daisy.executor.Executor(dependencies=[m1, m_starter])
+    executor = daisychain.executor.Executor(dependencies=[m1, m_starter])
     assert m_starter.status.pending
     assert m1.status.pending
     executor.execute()
@@ -215,9 +215,9 @@ def test_monitor_starter_with_failed_monitor():
     m1 = MockMonitor(name='m1')
     m2 = MockMonitor(name='m2', dependencies=[m1])
     m1.status.set_failed(RuntimeError("MockMonitor failure"))
-    m_starter = daisy.steps.monitor.MonitorStarter(monitors=[m1, m2])
+    m_starter = daisychain.steps.monitor.MonitorStarter(monitors=[m1, m2])
     m1.watches.append(m_starter)
-    executor = daisy.executor.Executor(dependencies=[m1, m_starter, m2], on_failure=daisy.executor.Executor.SKIP)
+    executor = daisychain.executor.Executor(dependencies=[m1, m_starter, m2], on_failure=daisychain.executor.Executor.SKIP)
     assert m_starter.status.pending
     executor.execute()
     assert m_starter.status.failed

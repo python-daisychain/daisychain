@@ -1,4 +1,4 @@
-from daisy.steps.marker import Marker
+from daisychain.steps.marker import Marker
 
 def test_marker():
     s = Marker(name='marker_step')

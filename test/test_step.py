@@ -1,6 +1,6 @@
-from daisy.step import Step, CircularReferenceError, ExceedsMaximumDepthError, MAXIMUM_REFERENCE_DEPTH, CheckStatusException
-from daisy.reference import Reference
-from daisy.executor import Executor, Execution
+from daisychain.step import Step, CircularReferenceError, ExceedsMaximumDepthError, MAXIMUM_REFERENCE_DEPTH, CheckStatusException
+from daisychain.reference import Reference
+from daisychain.executor import Executor, Execution
 
 class MockTestFailure(Exception):
     pass

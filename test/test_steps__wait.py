@@ -1,5 +1,5 @@
-from daisy.steps.wait import Wait
-from daisy.executor import Executor
+from daisychain.steps.wait import Wait
+from daisychain.executor import Executor
 import time
 
 def test_init():

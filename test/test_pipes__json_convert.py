@@ -1,5 +1,5 @@
-from daisy.steps.input import InMemoryInput
-from daisy.steps.pipes.json_convert import JsonLoad, JsonDump
+from daisychain.steps.input import InMemoryInput
+from daisychain.steps.pipes.json_convert import JsonLoad, JsonDump
 import json
 
 from .util import compare_trees

@@ -1,6 +1,6 @@
-from daisy.steps.compilers.step_config_inheritance import StepConfigInheritance
-from daisy.steps.input import InMemoryInput
-from daisy.reference import CircularReferenceError
+from daisychain.steps.compilers.step_config_inheritance import StepConfigInheritance
+from daisychain.steps.input import InMemoryInput
+from daisychain.reference import CircularReferenceError
 
 from .util import compare_trees
 

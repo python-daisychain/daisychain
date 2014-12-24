@@ -1,5 +1,5 @@
-from daisy.steps.manual import Manual
-from daisy.executor import Executor
+from daisychain.steps.manual import Manual
+from daisychain.executor import Executor
 from mock import patch
 import py3compat
 if py3compat.PY2:

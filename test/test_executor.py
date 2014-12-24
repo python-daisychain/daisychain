@@ -1,11 +1,11 @@
-import daisy.steps.input
-from daisy.executor import Executor, Execution, ExecutorAborted, ConsoleInput, CheckStatusException
+import daisychain.steps.input
+from daisychain.executor import Executor, Execution, ExecutorAborted, ConsoleInput, CheckStatusException
 from . import test_step
 from mock import patch
 
 import py3compat
 if py3compat.PY2:
-    input_function = 'daisy.steps.input.input'
+    input_function = 'daisychain.steps.input.input'
 else:
     import builtins
     input_function = 'builtins.input'

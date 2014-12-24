@@ -1,4 +1,4 @@
-from daisy.steps.inputs.file import InputFile
+from daisychain.steps.inputs.file import InputFile
 
 TEST_STRING = 'THIS STRING IS COMPLETELY UNIQUE AND WILL NOT EXIST EVER AGAIN'
 

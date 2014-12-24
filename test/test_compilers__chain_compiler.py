@@ -1,5 +1,5 @@
-from daisy.steps.compilers.chain import Chain, COMPILERS_KEY
-from daisy.steps.input import InMemoryInput
+from daisychain.steps.compilers.chain import Chain, COMPILERS_KEY
+from daisychain.steps.input import InMemoryInput
 
 from .util import compare_trees
 
@@ -16,73 +16,73 @@ def test_no_op():
         run_compiler(input_config, input_config)
 
 def test_simple_single_compiler():
-    input_config = {COMPILERS_KEY: ['daisy.steps.compilers.namespace_compiler.NamespaceCompiler'],
-                    '__namespaces__': ['daisy.steps'],
+    input_config = {COMPILERS_KEY: ['daisychain.steps.compilers.namespace_compiler.NamespaceCompiler'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'param2': 'value2'}}}
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
 
 def test_compiler_list():
     input_config = {COMPILERS_KEY: [
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
-                'daisy.**.StepConfigInheritance'],
-                    '__namespaces__': ['daisy.steps'],
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.**.StepConfigInheritance'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
                     }
                 }
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'class': 'daisy.steps.input.InMemoryInput', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'class': 'daisychain.steps.input.InMemoryInput', 'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
 def test_compiler_list_with_repeat():
     input_config = {COMPILERS_KEY: [
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
-                'daisy.**.StepConfigInheritance',
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.**.StepConfigInheritance',
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
                 ],
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
                     }
                 }
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'class': 'daisy.steps.input.InMemoryInput', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'class': 'daisychain.steps.input.InMemoryInput', 'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
 def test_compiler_list_with_run_from_here():
     # Will Fail if it doesn't use 'run_from_here' because StdOut is an output and doesn't specify any output for a next compiler
     input_config = {COMPILERS_KEY: [
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
-                'daisy.**.StepConfigInheritance',
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.**.StepConfigInheritance',
                 'run_from_here',
-                'daisy.steps.pipes.json_convert.JsonDump',
-                'daisy.steps.outputs.system.StdOut'
+                'daisychain.steps.pipes.json_convert.JsonDump',
+                'daisychain.steps.outputs.system.StdOut'
                 ],
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
                     }
                 }
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'class': 'daisy.steps.input.InMemoryInput', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'class': 'daisychain.steps.input.InMemoryInput', 'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
 def test_compiler_list_with_multiple_run_from_here():
     input_config = {COMPILERS_KEY: [
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
                 'run_from_here',
-                'daisy.**.StepConfigInheritance',
+                'daisychain.**.StepConfigInheritance',
                 'run_from_here',
                 ],
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
                     }
                 }
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'class': 'daisy.steps.input.InMemoryInput', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'class': 'daisychain.steps.input.InMemoryInput', 'param2': 'value2'}}}
     try:
         run_compiler(input_config, expected_output)
     except AssertionError:
@@ -94,26 +94,26 @@ def test_compiler_list_with_multiple_run_from_here():
 
 def test_compiler_list_with_repeat_and_dictionary_based():
     input_config = {COMPILERS_KEY: [
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
-                'daisy.**.StepConfigInheritance',
-                {'class': 'daisy.steps.compilers.namespace_compiler.NamespaceCompiler'},
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.**.StepConfigInheritance',
+                {'class': 'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler'},
                 ],
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
                     }
                 }
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'class': 'daisy.steps.input.InMemoryInput', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'class': 'daisychain.steps.input.InMemoryInput', 'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
 def test_compiler_list_with_bad_type():
     input_config = {COMPILERS_KEY: [
-                'daisy.steps.compilers.namespace_compiler.NamespaceCompiler',
-                'daisy.**.StepConfigInheritance',
+                'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler',
+                'daisychain.**.StepConfigInheritance',
                 3
                 ],
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
@@ -129,25 +129,25 @@ def test_compiler_list_with_bad_type():
 
 def test_compiler_with_tree():
     input_config = {COMPILERS_KEY: {
-                'namespace_compiler': {'class': 'daisy.steps.compilers.namespace_compiler.NamespaceCompiler'},
-                'stepconfig_compiler': {'class': 'daisy.**.StepConfigInheritance', 'input_step': 'namespace_compiler', 'run_from_here': True}
+                'namespace_compiler': {'class': 'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler'},
+                'stepconfig_compiler': {'class': 'daisychain.**.StepConfigInheritance', 'input_step': 'namespace_compiler', 'run_from_here': True}
                 },
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
                     }
                 }
-    expected_output = {'steps': {'step1': {'class': 'daisy.steps.input.InMemoryInput'}, 'step2': {'class': 'daisy.steps.input.InMemoryInput', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'daisychain.steps.input.InMemoryInput'}, 'step2': {'class': 'daisychain.steps.input.InMemoryInput', 'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
 
 def test_compiler_with_tree():
     input_config = {COMPILERS_KEY: {
-                'namespace_compiler': {'class': 'daisy.steps.compilers.namespace_compiler.NamespaceCompiler', 'run_from_here': True},
-                'stepconfig_compiler': {'class': 'daisy.**.StepConfigInheritance', 'input_step': 'namespace_compiler', 'run_from_here': True}
+                'namespace_compiler': {'class': 'daisychain.steps.compilers.namespace_compiler.NamespaceCompiler', 'run_from_here': True},
+                'stepconfig_compiler': {'class': 'daisychain.**.StepConfigInheritance', 'input_step': 'namespace_compiler', 'run_from_here': True}
                 },
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}
@@ -164,7 +164,7 @@ def test_compiler_with_tree():
 
 def test_compiler_with_bad_compilers_key():
     input_config = {COMPILERS_KEY: 3,
-                    '__namespaces__': ['daisy.steps'],
+                    '__namespaces__': ['daisychain.steps'],
                     'steps': {
                         'step1': {'class': 'input.InMemoryInput'},
                         'step2': {'__super__': 'step1', 'param2': 'value2'}

@@ -1,4 +1,4 @@
-from daisy.reference import ReferencingObject, Reference, ReferenceList, CircularReferenceError, ExceedsMaximumDepthError, MAXIMUM_REFERENCE_DEPTH
+from daisychain.reference import ReferencingObject, Reference, ReferenceList, CircularReferenceError, ExceedsMaximumDepthError, MAXIMUM_REFERENCE_DEPTH
 import time
 
 

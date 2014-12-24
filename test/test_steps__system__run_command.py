@@ -1,6 +1,6 @@
-from daisy.steps.system.run_command import RunCommand, subprocess
-from daisy.steps.authentication.basic_auth import BasicAuth
-from daisy.executor import Executor
+from daisychain.steps.system.run_command import RunCommand, subprocess
+from daisychain.steps.authentication.basic_auth import BasicAuth
+from daisychain.executor import Executor
 from subprocess import Popen as RealPopen
 
 from mock import patch, MagicMock

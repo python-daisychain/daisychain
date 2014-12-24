@@ -1,4 +1,4 @@
-from daisy.decorators import cache_for
+from daisychain.decorators import cache_for
 import time
 
 @cache_for(seconds=0.5)

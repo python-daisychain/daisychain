@@ -1,5 +1,5 @@
-from daisy.steps.compilers.separate_dependency_tree import SeparateDependencyTree
-from daisy.steps.input import InMemoryInput
+from daisychain.steps.compilers.separate_dependency_tree import SeparateDependencyTree
+from daisychain.steps.input import InMemoryInput
 
 from .util import compare_trees
 
@@ -17,16 +17,16 @@ def test_no_op():
         run_compiler(input_config, input_config)
 
 def test_successes():
-    input_config = {'__dependencies__': {},'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisy.executor.Executor', 'param2': 'value2'}}}
-    expected_output = {'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisy.executor.Executor', 'param2': 'value2'}}}
+    input_config = {'__dependencies__': {},'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisychain.executor.Executor', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisychain.executor.Executor', 'param2': 'value2'}}}
     run_compiler(input_config, expected_output)
 
-    input_config = {'__dependencies__': {'step2': ['step1']},'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisy.executor.Executor', 'param2': 'value2'}}}
-    expected_output = {'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisy.executor.Executor', 'param2': 'value2', 'dependencies': ['step1']}}}
+    input_config = {'__dependencies__': {'step2': ['step1']},'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisychain.executor.Executor', 'param2': 'value2'}}}
+    expected_output = {'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisychain.executor.Executor', 'param2': 'value2', 'dependencies': ['step1']}}}
     run_compiler(input_config, expected_output)
 
 def test_failure():
-    input_config = {'__dependencies__': {},'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisy.executor.Executor', 'param2': 'value2', 'dependencies': ['step1']}}}
+    input_config = {'__dependencies__': {},'steps': {'step1': {'class': 'input.InMemoryInput'}, 'step2': {'class': 'daisychain.executor.Executor', 'param2': 'value2', 'dependencies': ['step1']}}}
     compiler_input = InMemoryInput(output=input_config)
     compiler = SeparateDependencyTree(input_step=compiler_input)
     try:

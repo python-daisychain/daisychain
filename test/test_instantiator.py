@@ -1,23 +1,23 @@
-from daisy.steps.input import InMemoryInput
-from daisy.instantiator import Instantiator, ANONYMOUS_SUFFIX
-from daisy.steps.wait import Wait
-from daisy.steps.system.run_command import RunCommand
-from daisy.steps.authentication.basic_auth import BasicAuth
-from daisy.steps.marker import Marker
-from daisy.reference import CircularReferenceError
+from daisychain.steps.input import InMemoryInput
+from daisychain.instantiator import Instantiator, ANONYMOUS_SUFFIX
+from daisychain.steps.wait import Wait
+from daisychain.steps.system.run_command import RunCommand
+from daisychain.steps.authentication.basic_auth import BasicAuth
+from daisychain.steps.marker import Marker
+from daisychain.reference import CircularReferenceError
 
 config = {
     "step1":{
-        "class": "daisy.**.BasicAuth",
+        "class": "daisychain.**.BasicAuth",
         "username": "mockusername",
         "password": "mockpassword"
         },
     "step2":{
-        "class": "daisy.steps.wait.Wait",
+        "class": "daisychain.steps.wait.Wait",
         "seconds": 0.1
         },
     "step3":{
-        "class": "daisy.**.RunCommand",
+        "class": "daisychain.**.RunCommand",
         "command": "ls -l",
         "authentication": "step1",
         "dependencies": [ "step2" ]
@@ -57,7 +57,7 @@ def test_cannot_find_class_failure():
         assert False, "Should have raised a KeyError on class not found"
 
 def test_cannot_find_step_failure():
-    step = Instantiator(config={'step1':{'class':'daisy.**.Marker', 'dependencies': ['notastep']}})
+    step = Instantiator(config={'step1':{'class':'daisychain.**.Marker', 'dependencies': ['notastep']}})
     try:
         step.run()
     except KeyError:
@@ -65,7 +65,7 @@ def test_cannot_find_step_failure():
     else:
         assert False, "Should have raised a KeyError on class not found"
 
-    step = Instantiator(config={'step1':{'class':'daisy.**.RunCommand', 'command': 'ls -1', 'authentication': 'notastep'}})
+    step = Instantiator(config={'step1':{'class':'daisychain.**.RunCommand', 'command': 'ls -1', 'authentication': 'notastep'}})
     try:
         step.run()
     except KeyError:
@@ -74,7 +74,7 @@ def test_cannot_find_step_failure():
         assert False, "Should have raised a KeyError on class not found"
 
 def test_step_circular_dependencies():
-    step = Instantiator(config={'step1':{'class':'daisy.**.Marker', 'dependencies': ['step2']},'step2':{'class':'daisy.**.Marker', 'dependencies': ['step1']}})
+    step = Instantiator(config={'step1':{'class':'daisychain.**.Marker', 'dependencies': ['step2']},'step2':{'class':'daisychain.**.Marker', 'dependencies': ['step1']}})
     try:
         step.run()
     except CircularReferenceError:
@@ -85,24 +85,24 @@ def test_step_circular_dependencies():
 def test_anonymous_reference():
     step = Instantiator(config={
         'run':{
-            'class': 'daisy.**.RunCommand',
+            'class': 'daisychain.**.RunCommand',
             'command': 'sudo ls -l',
             'authentication': {
-                'class': 'daisy.**.BasicAuth',
+                'class': 'daisychain.**.BasicAuth',
                 'username': 'mockuser',
                 'password': 'mockpassword',
                 'dependencies': [
-                    {'class':'daisy.**.Marker'},
+                    {'class':'daisychain.**.Marker'},
                     'run_dep'
                     ]
                 },
             'dependencies': [
-                {'class':'daisy.**.Marker'},
+                {'class':'daisychain.**.Marker'},
                 'run_dep'
                 ]
             },
         'run_dep':{
-            'class': 'daisy.**.Marker'
+            'class': 'daisychain.**.Marker'
             }
         })
     step.run()
@@ -123,7 +123,7 @@ def test_anonymous_reference():
     assert auth_dep_inline.name == 'run.authentication.' + ANONYMOUS_SUFFIX + '.dependencies.0.' + ANONYMOUS_SUFFIX
 
 def test_anonymous_reference_name_collision():
-    step = Instantiator(config={'run':{'class':'daisy.**.RunCommand', 'command': 'sudo ls -l', 'authentication': {'class': 'daisy.**.BasicAuth', 'username': 'mockuser', 'password': 'mockpassword'}, 'dependencies': [{'class':'daisy.**.Marker'}]}, 'run.authentication.' + ANONYMOUS_SUFFIX: {'class': 'daisy.**.Marker'}})
+    step = Instantiator(config={'run':{'class':'daisychain.**.RunCommand', 'command': 'sudo ls -l', 'authentication': {'class': 'daisychain.**.BasicAuth', 'username': 'mockuser', 'password': 'mockpassword'}, 'dependencies': [{'class':'daisychain.**.Marker'}]}, 'run.authentication.' + ANONYMOUS_SUFFIX: {'class': 'daisychain.**.Marker'}})
     try:
         step.run()
     except KeyError:

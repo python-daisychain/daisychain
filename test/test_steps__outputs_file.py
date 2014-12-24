@@ -1,5 +1,5 @@
-from daisy.steps.outputs.file import OutputFile
-from daisy.steps.input import InMemoryInput
+from daisychain.steps.outputs.file import OutputFile
+from daisychain.steps.input import InMemoryInput
 import tempfile
 import os
 

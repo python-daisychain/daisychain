@@ -1,4 +1,4 @@
-from daisy.field import Field, ListField, ValidatingObject
+from daisychain.field import Field, ListField, ValidatingObject
 from py3compat import string_types
 
 def outside_function_validator(value):

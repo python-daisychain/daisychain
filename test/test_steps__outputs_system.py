@@ -1,5 +1,5 @@
-from daisy.steps.outputs.system import StdOut, sys
-from daisy.steps.input import InMemoryInput
+from daisychain.steps.outputs.system import StdOut, sys
+from daisychain.steps.input import InMemoryInput
 from mock import patch
 from py3compat import StringIO
 

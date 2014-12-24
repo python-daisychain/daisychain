@@ -1,4 +1,4 @@
-from daisy.step_status import StepStatus, CheckStatusException
+from daisychain.step_status import StepStatus, CheckStatusException
 
 def test_status():
     s = StepStatus()

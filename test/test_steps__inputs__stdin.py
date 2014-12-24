@@ -1,4 +1,4 @@
-from daisy.steps.inputs.system import StdIn, sys
+from daisychain.steps.inputs.system import StdIn, sys
 from mock import patch
 
 
