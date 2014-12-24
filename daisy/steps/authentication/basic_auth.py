@@ -3,11 +3,8 @@ from daisy.step import Step
 from daisy.field import Field
 from py3compat import string_types
 
-try:
-    import builtins
+if not py3compat.PY2:
     raw_input = input
-except ImportError:
-    pass
 
 class BasicAuth(Step):
 

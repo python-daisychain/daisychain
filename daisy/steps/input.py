@@ -2,12 +2,8 @@ from daisy.step import Step
 import re
 import getpass
 
-try:
-    import builtins
+if not py3compat.PY2:
     raw_input = input
-except ImportError:
-    pass
-
 
 class Input(Step):
     """
