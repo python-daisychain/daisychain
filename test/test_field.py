@@ -1,4 +1,5 @@
 from daisy.field import Field, ListField, ValidatingObject
+from py3compat import string_types
 
 def outside_function_validator(value):
     assert value, "Outside validation failed"
@@ -16,9 +17,9 @@ class TestValid(ValidatingObject):
     def instance_method_validator(self, value):
         assert value.startswith(self.instance_variable)
 
-    validate_by_outside_function = Field(instance_of=(bool, basestring), default=True, optional=True, validator=outside_function_validator)
+    validate_by_outside_function = Field(instance_of=(bool, ) + string_types, default=True, optional=True, validator=outside_function_validator)
     validate_by_class_method = Field(instance_of=int, default=3, optional=True, validator=class_method_validator)
-    validate_by_instance_method = Field(instance_of=basestring, default='passes', optional=True, validator=instance_method_validator)
+    validate_by_instance_method = Field(instance_of=string_types, default='passes', optional=True, validator=instance_method_validator)
 
 def test_outside_function_validation_bool():
     ob = TestValid(validate_by_outside_function=True)

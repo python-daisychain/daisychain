@@ -1,42 +1,42 @@
 import daisy.steps.authentication.basic_auth
-from contextlib import nested
 from mock import patch
 import sys
 
 
 def run_with_basic_auth(BasicAuth):
 
-    with nested(patch('daisy.steps.authentication.basic_auth.getpass'), patch('__builtin__.raw_input')) as (mock_getpass, mock_raw_input):
-        b = BasicAuth()
-        assert b.username is None
-        assert b.password is None
+    with patch('daisy.steps.authentication.basic_auth.getpass') as mock_getpass:
+        with patch('__builtin__.raw_input') as mock_raw_input:
+            b = BasicAuth()
+            assert b.username is None
+            assert b.password is None
 
-        mock_getpass.getuser.return_value = 'mockuser'
-        mock_getpass.getpass.return_value = 'mockpassword'
+            mock_getpass.getuser.return_value = 'mockuser'
+            mock_getpass.getpass.return_value = 'mockpassword'
 
-        b.run()
-        assert b.username == 'mockuser'
-        assert b.password == 'mockpassword'
+            b.run()
+            assert b.username == 'mockuser'
+            assert b.password == 'mockpassword'
 
-        mock_raw_input.return_value = 'mockuser2'
-        mock_getpass.getuser.return_value = None
-        mock_getpass.getpass.return_value = 'mockpassword2'
+            mock_raw_input.return_value = 'mockuser2'
+            mock_getpass.getuser.return_value = None
+            mock_getpass.getpass.return_value = 'mockpassword2'
 
-        b.run()
-        assert b.username == 'mockuser2'
-        assert b.password == 'mockpassword2'
+            b.run()
+            assert b.username == 'mockuser2'
+            assert b.password == 'mockpassword2'
 
-        mock_getpass.getuser.side_effect = RuntimeError("This should never be called")
-        mock_getpass.getpass.side_effect = RuntimeError("Neither should this")
+            mock_getpass.getuser.side_effect = RuntimeError("This should never be called")
+            mock_getpass.getpass.side_effect = RuntimeError("Neither should this")
 
 
-        b = BasicAuth(username='mockuser3', password='mockpassword3', credentials_for='LDAP')
-        assert 'LDAP' in b.credentials_for
+            b = BasicAuth(username='mockuser3', password='mockpassword3', credentials_for='LDAP')
+            assert 'LDAP' in b.credentials_for
 
-        b.run()
+            b.run()
 
-        assert b.username == 'mockuser3'
-        assert b.password == 'mockpassword3'
+            assert b.username == 'mockuser3'
+            assert b.password == 'mockpassword3'
 
 def test_basic_auth():
     run_with_basic_auth(daisy.steps.authentication.basic_auth.BasicAuth)

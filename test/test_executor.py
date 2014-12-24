@@ -1,5 +1,5 @@
 from daisy.executor import Executor, Execution, ExecutorAborted, ConsoleInput, CheckStatusException
-import test_step
+from . import test_step
 from mock import patch
 
 def test_init():

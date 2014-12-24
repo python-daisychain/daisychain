@@ -1,7 +1,7 @@
 from daisy.steps.outputs.system import StdOut, sys
 from daisy.steps.input import InMemoryInput
 from mock import patch
-from StringIO import StringIO
+from py3compat import StringIO
 
 TEST_STRING = 'THIS OUTPUT STRING IS COMPLETELY UNIQUE AND WILL NOT EXIST EVER AGAIN'
 
