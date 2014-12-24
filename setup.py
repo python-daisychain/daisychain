@@ -3,6 +3,8 @@ try:
 except:
     from distutils.core import setup, find_packages
 
+install_requires = ['py3compat >= 0.2']
+
 setup(
     name='daisy',
     version='0.1',
@@ -12,6 +14,7 @@ setup(
     url='https://github.com/python-daisy/daisy',
     license='MIT License',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-    scripts = ['bin/daisy-run']
+    scripts = ['bin/daisy-run'],
+    install_requires=install_requires
 )
 

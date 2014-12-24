@@ -5,6 +5,6 @@ python:
     - "3.2"
     - "2.7"
 
-install: ["pip install tox"]
-script: tox
+install: ["pip install py3compat pytest-cov mock"]
+script: "py.test --cov daisy tests/"
 sudo: false

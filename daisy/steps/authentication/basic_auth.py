@@ -1,12 +1,13 @@
 import getpass
 from daisy.step import Step
 from daisy.field import Field
+from py3compat import string_types
 
 class BasicAuth(Step):
 
-    username = Field(instance_of=basestring, optional=True)
-    password = Field(instance_of=basestring, optional=True)
-    credentials_for = Field(instance_of=basestring, optional=True, default='')
+    username = Field(instance_of=string_types, optional=True)
+    password = Field(instance_of=string_types, optional=True)
+    credentials_for = Field(instance_of=string_types, optional=True, default='')
 
     def __init__(self, **fields):
         super(BasicAuth, self).__init__(**fields)

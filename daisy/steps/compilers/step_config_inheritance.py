@@ -2,6 +2,7 @@ from daisy.step import Step
 from daisy.executor import Executor
 from daisy.steps.compiler import Compiler
 from daisy.constants import STEPS_KEY
+from py3compat import string_types
 
 
 class StepConfigInheritance(Compiler):
@@ -13,7 +14,7 @@ class StepConfigInheritance(Compiler):
             super(StepConfigInheritance.ParentedConfigurationStep, self).__init__(**fields)
             self.step_config = step_config
             self.parent_step_names = self.step_config.pop(self.PARENT_KEYWORD, list())
-            if isinstance(self.parent_step_names, basestring):
+            if isinstance(self.parent_step_names, string_types):
                 self.parent_step_names = [self.parent_step_names]
             self.parenting_steps = None
 

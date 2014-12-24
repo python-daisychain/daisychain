@@ -2,6 +2,7 @@ from collections import defaultdict
 from daisy.log import SharedLoggingObject
 from daisy.field import Field, ListField, ValidatingObject
 from daisy.constants import MAXIMUM_REFERENCE_DEPTH
+from py3compat import string_types
 
 
 class CircularReferenceError(Exception):
@@ -37,7 +38,7 @@ class Reference(Field):
     Reference object for identifying attributes for an object that reference another part of the release plan
 
     param argument: Variable name that has the references and will be overwritten by the referenced objects
-    type argument: basestring
+    type argument: string_types
     param instance_of: Optional parameter used to type-check that the reference is an instance of this class or, if a tuple, any of those classes
     type instance_of: type or tuple of types
     param multiple: Optional parameter to specify if this reference can be a list of references instead of a single item
@@ -59,7 +60,7 @@ class ReferenceList(ListField, Reference):
 
 class ReferencingObject(ValidatingObject, SharedLoggingObject):
 
-    name = Field(instance_of=basestring, optional=True, default=None)
+    name = Field(instance_of=string_types, optional=True, default=None)
 
     def __init__(self, **fields):
         super(ReferencingObject, self).__init__(**fields)

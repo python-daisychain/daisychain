@@ -2,6 +2,7 @@ from daisy.steps.compiler import Compiler
 from daisy.constants import COMPILERS_KEY
 from daisy.instantiator import Instantiator
 from daisy.executor import Executor
+from py3compat import string_types
 
 
 class Chain(Compiler):
@@ -13,7 +14,7 @@ class Chain(Compiler):
         previous_input_step = self.INPUT_STEP_NAME
         run_from_step = None
         for compiler in compilers:
-            if isinstance(compiler, basestring):
+            if isinstance(compiler, string_types):
                 if self.RUN_FROM_HERE == compiler:
                     assert run_from_step is None, "{!r} can only be specified once in the compilations list and it is specified both after the {!r} compiler and the {!r} compiler".format(self.RUN_FROM_HERE, run_from_step, previous_input_step)
                     run_from_step = previous_input_step
@@ -36,7 +37,7 @@ class Chain(Compiler):
                 output_config[compiler_name] = compiler
                 previous_input_step = compiler_name
             else:
-                raise TypeError("When trying to evaluate a list of compilers, all entries must be a dict or basestring.  This entry was {!r}".format(compiler))
+                raise TypeError("When trying to evaluate a list of compilers, all entries must be a dict or string_types.  This entry was {!r}".format(compiler))
         if run_from_step is None:
             run_from_step = previous_input_step
         output_config[run_from_step][self.RUN_FROM_HERE] = True

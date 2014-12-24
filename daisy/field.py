@@ -1,5 +1,6 @@
 import inspect
 import copy
+from py3compat import string_types
 
 
 class Field(object):
@@ -28,7 +29,7 @@ class Field(object):
                 raise TypeError("{source!r} tried to validate the attribute {attribute_name!r} with the value {value!r} and got an exception {exception!s}".format(source=source, attribute_name=attribute_name, value=value, exception=e))
 
     def _get_validator(self, source, attribute_name, validator):
-        if isinstance(validator, basestring):
+        if isinstance(validator, string_types):
             if not hasattr(source, validator):
                 raise TypeError("{source!r} has an attribute {attribute_name!r} specified by name as {validator!r} that doesn't exist as a class method on the object".format(source=source, attribute_name=attribute_name, validator=validator))
             validator = getattr(source, validator)

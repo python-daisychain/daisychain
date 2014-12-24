@@ -6,18 +6,19 @@ from daisy.field import Field
 from daisy.reference import Reference
 from daisy.steps.authentication.basic_auth import BasicAuth
 from daisy.decorators import cache_for
+from py3compat import string_types
 
 
 class RunCommand(Step):
     DEV_NULL = open('/dev/null', 'a')
     authentication = Reference(optional=True, instance_of=BasicAuth)
-    command = Field(instance_of=(basestring, list))
+    command = Field(instance_of=string_types + (list,))
     poll_interval_seconds = Field(instance_of=(int, float), optional=True, default=1)
 
     def __init__(self, **fields):
         super(RunCommand, self).__init__(**fields)
 
-        if isinstance(self.command, basestring):
+        if isinstance(self.command, string_types):
             self.command = shlex.split(str(self.command))
 
         self.log().debug("Command to be run: {!r}".format(self.command))
