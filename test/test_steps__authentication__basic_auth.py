@@ -1,8 +1,6 @@
 import daisy.steps.authentication.basic_auth
 from mock import patch
 import sys
-import mock_requests
-import mock_requests.auth
 import py3compat
 if py3compat.PY2:
     input_function = 'daisy.steps.authentication.basic_auth.input'
@@ -49,8 +47,10 @@ def test_basic_auth():
     run_with_basic_auth(daisy.steps.authentication.basic_auth.BasicAuth)
 
 def test_basic_auth_with_requests():
+    from . import mock_requests
+    from .mock_requests import auth as auth
     sys.modules['requests'] = mock_requests
-    sys.modules['requests.auth'] = mock_requests.auth
+    sys.modules['requests.auth'] = auth 
     try:
         basic_auth_class = daisy.steps.authentication.basic_auth._fix_bases_if_requests_is_present()
         assert isinstance(basic_auth_class(), mock_requests.auth.HTTPBasicAuth)
