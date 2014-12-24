@@ -1,0 +1,2 @@
+class HTTPBasicAuth(object):
+    pass
