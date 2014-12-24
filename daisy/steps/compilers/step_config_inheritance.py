@@ -37,7 +37,7 @@ class StepConfigInheritance(Compiler):
     def compile(self, config):
         parenting_steps = dict()
         executor = Executor(name=self.name)
-        for step_name, step_config in config[STEPS_KEY].iteritems():
+        for step_name, step_config in config[STEPS_KEY].items():
             parenting_steps[step_name] = StepConfigInheritance.ParentedConfigurationStep(step_config, name=step_name)
 
         executor.dependencies.update(parenting_steps.values())

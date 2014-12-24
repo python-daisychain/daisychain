@@ -1,5 +1,8 @@
+from py3compat import string_types
+
+
 def compare_trees(ob1, ob2):
-    if not (isinstance(ob1, basestring) and isinstance(ob2, basestring)):
+    if not (isinstance(ob1, string_types) and isinstance(ob2, string_types)):
         assert type(ob1) == type(ob2), "{!r} != {!r}".format(ob1, ob2)
 
     if isinstance(ob1, dict):

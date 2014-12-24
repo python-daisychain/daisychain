@@ -52,7 +52,7 @@ class Chain(Compiler):
                 raise TypeError('{!r} key must specify either a list or a dict of compilers'.format(COMPILERS_KEY))
 
             compiler_to_run_from = None
-            for compiler_name, compiler_config in compilers.iteritems():
+            for compiler_name, compiler_config in compilers.items():
                 if compiler_config.get(self.RUN_FROM_HERE, False):
                     assert compiler_to_run_from is None, "Only one compiler can specify '{!s}', but both {!r} and {!r} specify it".format(self.RUN_FROM_HERE, compiler_to_run_from, compiler_name)
                     compiler_to_run_from = compiler_name
