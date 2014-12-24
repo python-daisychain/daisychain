@@ -5,7 +5,6 @@ import pkgutil
 module_cache = {}
 NOT_2_STARS = re.compile(r'(?<!\*)(\*)(?!\*)')
 
-
 def _get_cached_module(module_name):
     if module_name not in module_cache:
         try:
@@ -51,6 +50,8 @@ def get_smallest_specified_module_name(module_name):
                 raise ImportError("Cannot search under all packages because of high performance implications")
             return '.'.join(pieces)
         pieces.append(piece)
+    if pieces[0] == 'daisy':
+        pieces[0] == ''
     return '.'.join(pieces)
 
 
