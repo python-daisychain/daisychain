@@ -167,7 +167,7 @@ def test_execute_skip_failures():
 def test_execute_graceful_shutdown():
     dep = test_step.MockStep(name='mock_sibling_step', run_exception=RuntimeError("test_run_exception"))
     dep2 = test_step.MockStep(name='mock_sibling_step2')
-    dep2.run = lambda self: self.status.set_validated()
+    dep2.run = lambda: dep2.status.set_validated()
     successful_dep = test_step.MockStep(name='successful_dep')
     parent = test_step.MockStep(name='mock_parent_step', dependencies=[dep, dep2, successful_dep])
     assert parent.dependencies == {dep, dep2, successful_dep}

@@ -153,7 +153,7 @@ class Executor(ReferencingObject):
                 if step.status.pending:
                     self._validate_step(step)
                 else:
-                    step.run()
+                    step.start()
             except Exception as e:
                 step.status.set_failed(e)
                 raise

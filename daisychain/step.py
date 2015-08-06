@@ -106,6 +106,13 @@ class Step(ReferencingObject):
         """
         self.status.set_validated()
 
+    def start(self):
+        """
+        This method is to allow delegation of run in the case of Threading or other types of steps
+        """
+        self.status.set_running()
+        self.run()
+
     @abstractmethod
     def run(self):
         """
